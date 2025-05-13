@@ -73,17 +73,7 @@ def process_message(ch, method, properties, body, postgres_conn):
         data = json.loads(body)
         logger.info(f"Получено сообщение: {data}")
 
-        # # Подготовка данных для вставки
-        # columns = data.keys()
-        # values = [data[column] for column in columns]
-        
-        # Создание SQL запроса
 
-        # query = sql.SQL("INSERT INTO {} ({}) VALUES ({})").format(
-        #     sql.Identifier(POSTGRES_CONFIG['table']),
-        #     sql.SQL(', ').join(map(sql.Identifier, columns)),
-        #     sql.SQL(', ').join(sql.Placeholder() * len(columns))
-        # )
         query = """
         INSERT  INTO public.questions (temp_id, title, is_draft, is_archived, question_type, answer, author_id, educ_center_id)
         VALUES (%s,%s,%s,%s,%s,%s::jsonb,%s,%s)
